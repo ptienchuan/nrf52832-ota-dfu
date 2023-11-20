@@ -14,11 +14,14 @@
 #include <zephyr/sys/printk.h>
 #include <zephyr/types.h>
 
+#include "img_mgmt/img_mgmt.h"
+#include "os_mgmt/os_mgmt.h"
 #include <zephyr/bluetooth/bluetooth.h>
 #include <zephyr/bluetooth/conn.h>
 #include <zephyr/bluetooth/gatt.h>
 #include <zephyr/bluetooth/hci.h>
 #include <zephyr/bluetooth/uuid.h>
+#include <zephyr/mgmt/mcumgr/smp_bt.h>
 
 #include <bluetooth/services/lbs.h>
 
@@ -45,7 +48,8 @@ static const struct bt_data ad[] = {
 };
 
 static const struct bt_data sd[] = {
-    BT_DATA_BYTES(BT_DATA_UUID128_ALL, BT_UUID_LBS_VAL),
+    BT_DATA_BYTES(BT_DATA_UUID128_ALL, 0x84, 0xaa, 0x60, 0x74, 0x52, 0x8a, 0x8b, 0x86, 0xd3, 0x4c,
+                  0xb7, 0x1d, 0x1d, 0xdc, 0x53, 0x8d),
 };
 
 static void connected(struct bt_conn *conn, uint8_t err) {
@@ -170,6 +174,12 @@ void main(void) {
   int err;
 
   printk("Starting Bluetooth Peripheral LBS example\n");
+
+  printk("build time: " __DATE__ " " __TIME__ "\n");
+
+  os_mgmt_register_group();
+  img_mgmt_register_group();
+  smp_bt_register();
 
   err = dk_leds_init();
   if (err) {
