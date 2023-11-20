@@ -4,3 +4,4 @@ Tham khảo tử Guide: https://devzone.nordicsemi.com/guides/nrf-connect-sdk-gu
 
 Sử dụng sample `nrf/peripheral_lbs` và triển khai OTA DFU trên sample này.
 
+Flutter app cho demo này: https://github.com/ptienchuan/flutter-ota-dfu
